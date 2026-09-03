@@ -528,6 +528,21 @@ private struct SettingsView: View {
                     Toggle("Remove filler words (um, uh, erm)", isOn: $app.removeFillers)
                 }
 
+                SwiftUI.Section("General") {
+                    Toggle("Open Wisp at login", isOn: Binding(
+                        get: { app.launchAtLogin },
+                        set: { app.setLaunchAtLogin($0) }
+                    ))
+                    .disabled(!LaunchAtLogin.isAvailable)
+                    if let err = app.launchAtLoginError {
+                        Text(err).font(.callout).foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    } else if !LaunchAtLogin.isAvailable {
+                        Text("Available when running the installed Wisp.app.")
+                            .font(.callout).foregroundStyle(.secondary)
+                    }
+                }
+
                 SwiftUI.Section("Microphone") {
                     Picker("Record from", selection: $app.microphoneUID) {
                         Text("System Default (\(app.defaultMicName))").tag("")

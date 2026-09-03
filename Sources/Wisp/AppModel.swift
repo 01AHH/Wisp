@@ -17,6 +17,9 @@ final class AppModel: ObservableObject {
     @Published var removeFillers = Settings.removeFillers { didSet { Settings.removeFillers = removeFillers } }
     @Published var microphoneUID = Settings.microphoneUID { didSet { Settings.microphoneUID = microphoneUID } }
 
+    @Published var launchAtLogin = LaunchAtLogin.isEnabled
+    @Published var launchAtLoginError: String?
+
     @Published var devices: [AudioDevices.Device] = []
     @Published var defaultMicName = ""
     @Published var micTestResult: String?
@@ -49,6 +52,13 @@ final class AppModel: ObservableObject {
     func refreshPermissions() {
         accessibilityGranted = AXIsProcessTrusted()
         microphoneGranted = AVCaptureDevice.authorizationStatus(for: .audio) == .authorized
+        launchAtLogin = LaunchAtLogin.isEnabled
+    }
+
+    /// Called from the Settings toggle. Reverts the switch if registration fails.
+    func setLaunchAtLogin(_ enabled: Bool) {
+        launchAtLoginError = LaunchAtLogin.set(enabled)
+        launchAtLogin = LaunchAtLogin.isEnabled
     }
 
     /// Polls until Accessibility is granted, then starts the hotkey.

@@ -36,9 +36,10 @@ macOS doesn't fight over it.
 - **Scratchpad** (left) — dictate into it while the window is focused, edit the text, then hit
   **Pull Through** (⌘↩): Wisp hides, the app you came from gets focus and the text is pasted there.
   **Recent** lists your last 20 dictations so you can drop one back in. Contents persist.
-- **Settings** (right) — hold key, filler-word removal, which microphone to record from,
-  **Test Microphone** (records three seconds and shows what came through), and permission status
-  with Grant buttons.
+- **Settings** (right) — open Wisp at login, hold key, filler-word removal, which microphone to
+  record from, **Test Microphone** (records three seconds and shows what came through), and
+  permission status with Grant buttons. The login toggle only works from the installed Wisp.app,
+  not from `swift run`.
 
 Closing the window keeps dictation running in the background; click the Dock icon to bring it
 back. ⌘Q quits.
@@ -69,5 +70,6 @@ Sources/Wisp/
   Overlay.swift        the floating pill
   Scratchpad.swift     scratchpad logic + view, recent dictations, pull-through
   Settings.swift       UserDefaults
+  LaunchAtLogin.swift  login item via SMAppService
   Log.swift            ~/Library/Logs/Wisp.log
 ```
